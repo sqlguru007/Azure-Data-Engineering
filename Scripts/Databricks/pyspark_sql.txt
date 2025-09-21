@@ -1,25 +1,30 @@
 # Databricks notebook source
-# DBTITLE 1,mounting adls location
+
+configs = {"fs.azure.account.auth.type": "OAuth",
+          "fs.azure.account.oauth.provider.type": "org.apache.hadoop.fs.azurebfs.oauth2.ClientCredsTokenProvider",
+          "fs.azure.account.oauth2.client.id": "<application-id>",
+          "fs.azure.account.oauth2.client.secret": dbutils.secrets.get(scope="<scope-name>",key="<service-credential-key-name>"),
+          "fs.azure.account.oauth2.client.endpoint": "https://login.microsoftonline.com/<directory-id>/oauth2/token"}
+
+# Optionally, you can add <directory-name> to the source URI of your mount point.
 dbutils.fs.mount(
-  source = "wasbs://CONTAINER@STORAGENAME.blob.core.windows.net",
-  mount_point = "/mnt/retail",
-  extra_configs = {"fs.azure.account.key.STORAGENAME.blob.core.windows.net":"PASSYORACCESSKEY"})
-
-
+  source = "abfss://<container-name>@<storage-account-name>.dfs.core.windows.net/",
+  mount_point = "/mnt/storagename/container",
+  extra_configs = configs)
 
 # COMMAND ----------
 
-dbutils.fs.ls('/mnt/retail/')
+dbutils.fs.ls('/mnt/storagename/')
 
 # COMMAND ----------
 
-dbutils.fs.ls('/mnt/retail/bronze')
+dbutils.fs.ls('/mnt/storagename/bronze')
 
 # COMMAND ----------
 
 from pyspark.sql.functions import col, upper, trim, when
 # Step 1: Read raw JSON (bronze)
-bronze_df = spark.read.parquet("/mnt/retail/bronze")
+bronze_df = spark.read.parquet("/mnt/storagename/bronze")
 display(bronze_df)
 
 
@@ -94,12 +99,12 @@ df_clean4 = df_clean3.filter(
 df_clean5 = df_clean4.dropDuplicates(["TransactionID"])
 
 # Step 7: Write to Silver
-df_clean5.write.format("parquet").mode("overwrite").save("/mnt/retail/silver")
+df_clean5.write.format("parquet").mode("overwrite").save("/mnt/storagename/silver")
 
 
 # COMMAND ----------
 
-silver_df=spark.read.parquet('/mnt/retail/silver/')
+silver_df=spark.read.parquet('/mnt/storagename/silver/')
 display(silver_df)
 
 # COMMAND ----------
