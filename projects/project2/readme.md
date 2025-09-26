@@ -1,4 +1,4 @@
-### Store Project
+# Store Project
 
 ## Requirement
 
@@ -14,11 +14,11 @@ External API Data – a third-party vendor provides daily product pricing and cu
 
 The company wants to centralize, clean, and analyze this data in their Azure Data Lakehouse. Executives want Power BI dashboards for insights into sales, customer behavior, and competitor pricing.
 
-## Data Sources ---> Check the folder "datasets"
+# Data Sources ---> Check the folder "datasets"
 
-# Azure SQL Database (OLTP)
+### Azure SQL Database (OLTP)
 
-# Tables
+###  Tables
 Transactions
 Shop
 products
@@ -33,12 +33,12 @@ Multiple competitor records for each product are returned daily.
 
 ## Data Engineering Workflow
 
-# Solutioning 
-# Study the requirements
-# Check Data Availability and ask relevant questions
-# Create the Architecture Diagram
+###  Solutioning 
+###  Study the requirements
+###  Check Data Availability and ask relevant questions
+###  Create the Architecture Diagram
 
-# 1. Ingestion (Bronze Layer)
+###  1. Ingestion (Bronze Layer)
 
 Use Azure Data Factory (ADF) pipelines to:
 
@@ -46,7 +46,7 @@ Extract data from Azure SQL Database and land as Parquet/Delta in ADLS (Azure Da
 
 Call the customer API, store the raw JSON response into ADLS Bronze.
 
-# 2. Processing & Transformation (Silver Layer)
+###  2. Processing & Transformation (Silver Layer)
 
 Use Azure Databricks with PySpark + SQL to:
 
@@ -60,7 +60,7 @@ Deduplicate, handle missing values, and join related tables.
 
 Create curated Silver tables.
 
-# 3. Aggregation & Business Models (Gold Layer)
+###  3. Aggregation & Business Models (Gold Layer)
 
 Use Databricks SQL / PySpark to:
 
@@ -68,7 +68,7 @@ Create aggregated views for business consumption.
 
 Store Gold tables in Delta Lake for easy querying.
 
-# 4. Visualization
+###  4. Visualization
 
 Connect Power BI to the Gold Layer in Databricks SQL endpoint.
 
@@ -80,7 +80,7 @@ Product Performance – Best/Worst performers, category-level trends.
 
 Customer Analytics – High-value customers, churn risk, regional distribution.
 
-# Deliverables
+###  Deliverables
 
 ADF Pipelines for ingestion (SQL + API).
 
