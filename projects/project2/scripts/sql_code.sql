@@ -19,14 +19,14 @@ INSERT INTO products VALUES
 (10, 'Pen Drive 32GB', 'Electronics', 599.00);
 
 
--- Stores Table
-CREATE TABLE stores (
+-- shop Table
+CREATE TABLE shop (
     store_id INT PRIMARY KEY,
     store_name VARCHAR(100),
     location VARCHAR(100)
 );
 
-INSERT INTO stores VALUES 
+INSERT INTO shop VALUES 
 (1, 'City Mall Store', 'Mumbai'),
 (2, 'High Street Store', 'Delhi'),
 (3, 'Tech World Outlet', 'Bangalore'),
@@ -43,7 +43,7 @@ CREATE TABLE transactions (
     quantity INT,
     transaction_date DATE,
     FOREIGN KEY (product_id) REFERENCES products(product_id),
-    FOREIGN KEY (store_id) REFERENCES stores(store_id)
+    FOREIGN KEY (store_id) REFERENCES shop(store_id)
 );
 
 
